@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import index from '@/page/index'
 import login from '@/page/login'
+import index from '@/page/index'
 import register from '@/page/register'
 import article from '@/page/article'
 

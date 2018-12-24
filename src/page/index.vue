@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div>11122
     <div class="main" :class="{'active': barShow}">
       <div class="left-bar">
         <fourleafs :size="40" :left="60" :top="60"></fourleafs>
@@ -56,7 +56,7 @@
             <li>
               <router-link to="/article">
                 <h1>内容标题</h1>
-                <p>内容内容内容内容内容内容内容内容。。。。</p>
+                <p></p>
                 <div class="meta">
                   <i class="fa fa-clock-o"></i>
                   <span class="text">2018-08-01</span>
