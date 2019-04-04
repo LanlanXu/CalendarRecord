@@ -4,7 +4,7 @@
   "description": "pratice",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webdev": "webpack-dev-server --devtool --config src/build/webpack.dev.config.js",
+    "webdev": "webpack-dev-server --config src/build/webpack.dev.config.js",
     "webbuild": "webpack --watch -p --config src/build/webpack.build.config.js",
     "server": "nodemon server/app.js",
     "dev": "concurrently \"npm run webdev\" \"npm run server\"",

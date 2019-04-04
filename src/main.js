@@ -2,10 +2,12 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import "@/assets/base.scss";
 import router from './router'
 require('./global/index')
 require('./global/interface')
-alert(2)
+
+
 
 Vue.config.productionTip = false
 import { Button, Select } from 'element-ui';
