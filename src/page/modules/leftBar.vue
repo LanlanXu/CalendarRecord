@@ -6,13 +6,14 @@
         <i class="fa fa-home"></i>
         <span class="text">首页</span>
       </li>
-      <li @click="openLayer">
+      <li @click="openLayer" v-if="false">
         <i class="fa fa-sign-in"></i>
         <span class="text">登陆</span>
       </li>
       <li>
         <i class="fa fa-sign-out"></i>
-        <span class="text">退出</span>
+        <!--<span class="text">退出</span>-->
+        <router-link to="/login">退出</router-link>
       </li>
     </ul>
     <transition name="fade">
