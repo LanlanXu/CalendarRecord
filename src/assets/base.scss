@@ -1,5 +1,5 @@
-$bg-color: #666699;
-$h-color: #CC9999;
+$bg-color: #7f7fab;
+$h-color: #c2efba;
 $ac-color: #25C6FC;
 $bar-width: 120px;
 $bar-btn: 36px;
@@ -16,6 +16,7 @@ $bar-btn: 36px;
     height: 100vh;
     overflow: hidden;
     font-size: 12px;
+    background: $bg-color;
   }
   
   .msg {

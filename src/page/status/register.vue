@@ -10,9 +10,9 @@
           <!--<span class="getMsgCode" @click="getMsg()">获取验证码</span>-->
         </div>
         <!--<div class="item">
-          <label>验证码</label>
-          <i-input :form="form" :deleteBoolArr="deleteBoolArr" str="msgcode" place="请输入验证码"></i-input>
-        </div>-->
+            <label>验证码</label>
+            <i-input :form="form" :deleteBoolArr="deleteBoolArr" str="msgcode" place="请输入验证码"></i-input>
+          </div>-->
         <div class="item">
           <label>密码</label>
           <i-input :form="form" :deleteBoolArr="deleteBoolArr" str="pwd" place="请输入密码" inputType="password"></i-input>
@@ -25,7 +25,7 @@
       <div class="main-btn" @click="register">注册并登录</div>
     </div>
     <div class="links" @click="toLogin">
-        有账号？直接登录
+      有账号？直接登录
     </div>
   </div>
 </template>
@@ -33,7 +33,7 @@
 <script>
 export default {
   name: 'login',
-  data () {
+  data() {
     let validatePhoneCheck = (value) => {
       let bool = /^[1][0-9]{10}$/.test(value)
       if (!bool) this.errorMsg('请输入正确格式的手机号')
@@ -78,15 +78,15 @@ export default {
     }
   },
   methods: {
-    toLogin () {
-      this.$emit('toLogin')
+    toLogin() {
+      this.$router.push('/login');
     },
-    getMsg () {
+    getMsg() {
       if (!this.validate('phone')) return
       // 获取验证码接口
-      this.$XHRpost('api/getmsgcode', {}, function () { })
+      this.$XHRpost('api/getmsgcode', {}, function() { })
     },
-    register () {
+    register() {
       let _this = this
       if (!this.validate()) return
       // 注册，是否需要加密信息
@@ -94,7 +94,7 @@ export default {
         phone: this.form.phone,
         // msgcode: this.form.msgcode,
         password: this.form.pwd
-      }, function (data) {
+      }, function(data) {
         _this.errorMsg(data.msg)
         if (data.success) {
           // 储存用户名和密码

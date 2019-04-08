@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     toRegister() {
-      this.$emit('toRegister')
+      this.$router.push('/register');
     },
     login() {
       let _this = this
@@ -59,10 +59,11 @@ export default {
         phone: this.form.phone,
         password: this.form.pwd
       }, function(data) {
-        _this.errorMsg(data.msg)
+        _this.errorMsg(data.msg);
         if (data.success) {
           // 储存用户名和密码
           // 跳转
+          _this.$router.push('/index');
         }
 
       })
@@ -72,5 +73,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 </style>
 
