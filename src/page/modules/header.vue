@@ -27,6 +27,7 @@ export default {
   display: flex;
   justify-content: space-between;
   background: $bg-color;
+  min-width: 707px;
 
   .bar-btn {
     width: $bar-btn;

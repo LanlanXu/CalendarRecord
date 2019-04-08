@@ -90,7 +90,7 @@ export default {
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.3);
-    z-index: 2;
+    z-index: 3;
   }
 }
 </style>

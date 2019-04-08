@@ -67,6 +67,7 @@ export default {
     top: 0;
     left: $bar-width;
     background: #fff;
+	overflow-y: auto;
   }
 }
 </style>
