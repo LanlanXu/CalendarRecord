@@ -22,16 +22,16 @@ app.use(express.static(resolve('../webapp/fonts')));
 
 var UsersModel = require(resolve('model/user'));
 let allowCrossDomain = function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');//自定义中间件，设置跨域需要的响应头。
-  res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'content-type');
-  next();
+    res.header('Access-Control-Allow-Origin', '*');//自定义中间件，设置跨域需要的响应头。
+    res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'content-type');
+    next();
 };
 
 app.use(allowCrossDomain);//运用跨域的中间件
 app.post('/api/login', jsonParser, function (req, res) {
     console.log(req.body.phone);
-    
+
     UsersModel.find({ phone: new RegExp(req.body.phone) }, function (err, docs) {
         if (!err) {
             if (!docs.length) {
@@ -71,6 +71,18 @@ app.post('/api/register', jsonParser, function (req, res) {
     });
 });
 
+var contentModel = require(resolve('model/content'));
+app.post('/api/content/save', jsonParser, function (req, res) {
+    console.log(req.body.id);
+    var content = new contentModel({
+        id: req.body.id,
+        content: req.body.value
+    });
+    content.save(function (err, doc) {
+        result.msg = '修改成功';
+        res.json(result);
+    });
+});
 
 
 

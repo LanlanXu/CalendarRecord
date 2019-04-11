@@ -19,7 +19,7 @@
                     <template v-for="item in arr1">
                         <td :class="{'big': item && item.edit, 'cur': item && item.cur}">
                             <template v-if="item">
-                                <h1>{{item.day}}</h1>
+                                <h1>{{item.date}}</h1>
                                 <textarea v-model="item.content" @blur="hideEdit($event, item)" v-show="item.edit"></textarea>
                                 <p v-show="!item.edit" @click="showEdit($event, item)" v-html="showContent(item.content)"></p>
                             </template>
@@ -37,7 +37,7 @@
 export default {
     data() {
         return {
-            curDay: 0,
+            curDay: (new Date()).getDate(),
             data: [],
             year: (new Date()).getFullYear(),
             month: (new Date()).getMonth()
@@ -49,9 +49,21 @@ export default {
         },
         hideEdit(e, item) {
             item.edit = false;
-            console.log(this.data);
+            this.$XHRpost('api/content/save', {
+                id: `${item.year}${item.month}${item.date}`,
+                value: e.target.value
+            }, function(data) {
+                _this.errorMsg(data.msg);
+                if (data.success) {
+                    // 储存用户名和密码
+                    // 跳转
+                    // _this.$router.push('/index');
+                }
+
+            })
         },
         showEdit(e, item) {
+            console.log(item);
             item.edit = true;
             this.$nextTick(() => {
                 e.target.previousElementSibling.focus();
@@ -90,11 +102,13 @@ export default {
                 var j = Math.floor((temp - 1) / 7);
                 if (!arr[j]) arr[j] = [];
                 var obj = {
-                    day: i,
+                    year: year,
+                    month: month,
+                    date: i,
                     content: '',
                     edit: false
                 };
-                if (temp === this.curDay) obj.cur = true;
+                obj.cur = `${year}${month}${temp}` === this.curDay;
                 arr[j][(temp - 1) % 7] = obj;
             }
             // 补充当日之前的内容
@@ -118,9 +132,8 @@ export default {
         }
     },
     mounted() {
-        var day = (new Date()).getDate();
-        this.curDay = day;
-
+        this.curDay = `${this.year}${this.month + 1}${this.curDay}`;
+        console.log(this.curDay);
         this.getCalendar(new Date());
     }
 };
