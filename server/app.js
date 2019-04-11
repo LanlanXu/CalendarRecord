@@ -75,7 +75,7 @@ var contentModel = require(resolve('model/content'));
 app.post('/api/content/save', jsonParser, function (req, res) {
     console.log(req.body.id);
     var content = new contentModel({
-        id: req.body.id,
+        _id: req.body.id,
         content: req.body.value
     });
     content.save(function (err, doc) {
