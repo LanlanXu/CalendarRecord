@@ -40,17 +40,39 @@ export default {
             curDay: (new Date()).getDate(),
             data: [],
             year: (new Date()).getFullYear(),
-            month: (new Date()).getMonth()
+            month: (new Date()).getMonth() + 1,
+            conData: []
         };
     },
     methods: {
+        getData(year, month) {
+            var _this = this;
+            this.$XHRpost('api/content/all', {
+                year: year,
+                month: month
+            }, function(data) {
+                _this.getCalendar(new Date(_this.year, _this.month - 1, 1), _this.handleData(data.data));
+                _this.errorMsg(data.msg);
+                if (data.success) {
+                }
+
+            })
+        },
+        handleData(data) {
+            var obj = {};
+            for (var i = 0; i < data.length; i++) {
+                obj[data[i]._id] = data[i].content;
+            }
+            console.log(obj);
+            return obj;
+        },
         showContent(value) {
             return value.replace(/\n/g, '<br>')
         },
         hideEdit(e, item) {
             item.edit = false;
             this.$XHRpost('api/content/save', {
-                id: `${item.year}${item.month}${item.date}`,
+                id: `${item.year}${this.handleNum(item.month)}${this.handleNum(item.date)}`,
                 value: e.target.value
             }, function(data) {
                 _this.errorMsg(data.msg);
@@ -70,24 +92,24 @@ export default {
             });
         },
         getPrevMon() {
-            if (this.month === 0) {
+            if (this.month === 1) {
                 this.year--;
-                this.month = 11;
+                this.month = 12;
             } else {
                 this.month--;
             }
-            this.getCalendar(new Date(this.year, this.month, 1));
+            this.getData(this.year, this.month);
         },
         getNextMon() {
-            if (this.month === 11) {
+            if (this.month === 12) {
                 this.year++;
-                this.month = 0;
+                this.month = 1;
             } else {
                 this.month++;
             }
-            this.getCalendar(new Date(this.year, this.month, 1));
+            this.getData(this.year, this.month);
         },
-        getCalendar(now) {
+        getCalendar(now, data) {
             now.setDate(1);
             var year = now.getFullYear(),
                 month = now.getMonth() + 1,
@@ -99,16 +121,19 @@ export default {
 
             // 补充当日之后的内容
             for (var i = date, temp = day; i <= curMonLastDate; i++ , temp++) {
-                var j = Math.floor((temp - 1) / 7);
+                var j = Math.floor((temp - 1) / 7),
+                    time = `${year}${this.handleNum(month)}${this.handleNum(i)}`,
+                    content = data && data[time] ? data[time] : '';
+                console.log(content)
                 if (!arr[j]) arr[j] = [];
                 var obj = {
                     year: year,
                     month: month,
                     date: i,
-                    content: '',
+                    content: content,
                     edit: false
                 };
-                obj.cur = `${year}${month}${temp}` === this.curDay;
+                obj.cur = time === this.curDay;
                 arr[j][(temp - 1) % 7] = obj;
             }
             // 补充当日之前的内容
@@ -128,13 +153,15 @@ export default {
 				arr[0][index] = obj;
 			} */
             this.data = arr;
-
+        },
+        handleNum(val) {
+            return ('00' + val).substr(-2);
         }
     },
     mounted() {
-        this.curDay = `${this.year}${this.month + 1}${this.curDay}`;
-        console.log(this.curDay);
-        this.getCalendar(new Date());
+        this.curDay = `${this.year}${this.handleNum(this.month)}${this.handleNum(this.curDay)}`;
+        this.getData(this.year, this.month);
+
     }
 };
 </script>

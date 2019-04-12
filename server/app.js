@@ -73,15 +73,60 @@ app.post('/api/register', jsonParser, function (req, res) {
 
 var contentModel = require(resolve('model/content'));
 app.post('/api/content/save', jsonParser, function (req, res) {
-    console.log(req.body.id);
-    var content = new contentModel({
-        _id: req.body.id,
-        content: req.body.value
-    });
-    content.save(function (err, doc) {
-        result.msg = '修改成功';
-        res.json(result);
-    });
+    contentModel.find({ _id: req.body.id }, function (err, docs) {
+        console.log('xll');
+        console.log(err);
+        if (!err) {
+            console.log(docs);
+            if (!docs.length) {
+                var content = new contentModel({
+                    _id: req.body.id,
+                    content: req.body.value
+                });
+                content.save(function (err, doc) {
+                    result.msg = '修改成功';
+                    res.json(result);
+                });
+            } else {
+                contentModel.updateOne({ _id: req.body.id }, { content: req.body.value }, function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(res);
+                    }
+                });
+            }
+        }
+    })
+});
+function handleNum(val) {
+    return ('00' + val).substr(-2);
+}
+app.post('/api/content/all', jsonParser, function (req, res) {
+    if (req.body.month == 12) {
+        var neYe = req.body.year + 1;
+        var neMon = 1;
+    } else {
+        var neYe = req.body.year;
+        var neMon = req.body.month + 1;
+    }
+    console.log(req.body.year + handleNum(req.body.month) + '01');
+    console.log(neYe + handleNum(neMon) + '01');
+    contentModel.find({ _id: { $gte: Number(req.body.year + handleNum(req.body.month) + '01'), $lt: Number(neYe + handleNum(neMon) + '01') } }, function (err, docs) {
+
+        if (!err) {
+            console.log(docs);
+            if (!docs.length) {
+                result.msg = '成功';
+                result.data = [];
+                res.json(result);
+            } else {
+                result.msg = '成功';
+                result.data = docs;
+                res.json(result);
+            }
+        }
+    })
 });
 
 
