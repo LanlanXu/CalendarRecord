@@ -12,7 +12,8 @@ module.exports = merge(baseConfig, {
   devServer: {
     disableHostCheck: true,
     hot: true,
-    open: 'Chrome'
+    open: 'Chrome',
+    port: 3333
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),

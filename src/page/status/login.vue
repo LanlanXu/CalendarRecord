@@ -10,69 +10,72 @@
         </div>
         <div class="item">
           <label>密码</label>
-          <i-input :form="form" inputType="password" :deleteBoolArr="deleteBoolArr" str="pwd" place="请输入密码"></i-input>
+          <i-input
+            :form="form"
+            inputType="password"
+            :deleteBoolArr="deleteBoolArr"
+            str="pwd"
+            place="请输入密码"
+          ></i-input>
         </div>
       </div>
       <div class="main-btn" @click="login">登录</div>
     </div>
-    <div class="links" @click="toRegister">
-      新用户注册
-    </div>
+    <div class="links" @click="toRegister">新用户注册</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'login',
+  name: "login",
   data() {
     return {
       form: {
-        phone: '',
-        pwd: ''
+        phone: "",
+        pwd: ""
       },
-      msg: '',
+      msg: "",
       msgDisplay: false,
       rule: {
-        phone: [
-          { required: true, message: '用户名不得为空' }
-        ],
-        pwd: [
-          { required: true, message: '密码不得为空' }
-        ]
+        phone: [{ required: true, message: "用户名不得为空" }],
+        pwd: [{ required: true, message: "密码不得为空" }]
       },
       deleteBoolArr: {
         phone: false,
         pwd: false
       }
-    }
+    };
   },
   methods: {
     toRegister() {
-      this.$router.push('/register');
+      this.$router.push("/register");
     },
     login() {
-      let _this = this
-      if (!this.validate()) return
-      this.validate()
+      let _this = this;
+      if (!this.validate()) return;
+      this.validate();
       // 登陆，是否需要加密信息
-      this.$XHRpost('api/login', {
-        phone: this.form.phone,
-        password: this.form.pwd
-      }, function(data) {
-        _this.errorMsg(data.msg);
-        if (data.success) {
-          // 储存用户名和密码
-          // 跳转
-          _this.$router.push('/index');
+      this.$XHRpost(
+        "api/login",
+        {
+          phone: this.form.phone,
+          password: this.form.pwd
+        },
+        function(data) {
+          localStorage.setItem("userId", data.data[0]._id);
+          _this.errorMsg(data.msg);
+          if (data.success) {
+            // 储存用户名和密码
+            // 跳转
+            _this.$router.push("/index");
+          }
         }
-
-      })
+      );
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>
 

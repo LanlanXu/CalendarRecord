@@ -73,14 +73,12 @@ app.post('/api/register', jsonParser, function (req, res) {
 
 var contentModel = require(resolve('model/content'));
 app.post('/api/content/save', jsonParser, function (req, res) {
-    contentModel.find({ _id: req.body.id }, function (err, docs) {
-        console.log('xll');
-        console.log(err);
+    contentModel.find({ userId: req.body.userId, time: req.body.time }, function (err, docs) {
         if (!err) {
-            console.log(docs);
             if (!docs.length) {
                 var content = new contentModel({
-                    _id: req.body.id,
+                    userId: req.body.userId,
+                    time: req.body.time,
                     content: req.body.value
                 });
                 content.save(function (err, doc) {
@@ -88,13 +86,24 @@ app.post('/api/content/save', jsonParser, function (req, res) {
                     res.json(result);
                 });
             } else {
-                contentModel.updateOne({ _id: req.body.id }, { content: req.body.value }, function (err, res) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log(res);
-                    }
-                });
+                if (!req.body.value) {
+                    contentModel.remove({ userId: req.body.userId, time: req.body.time }, function (err, res) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(res);
+                        }
+                    })
+                } else {
+                    contentModel.updateOne({ userId: req.body.userId, time: req.body.time }, { content: req.body.value }, function (err, res) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(res);
+                        }
+                    });
+                }
+
             }
         }
     })
@@ -110,9 +119,7 @@ app.post('/api/content/all', jsonParser, function (req, res) {
         var neYe = req.body.year;
         var neMon = req.body.month + 1;
     }
-    console.log(req.body.year + handleNum(req.body.month) + '01');
-    console.log(neYe + handleNum(neMon) + '01');
-    contentModel.find({ _id: { $gte: Number(req.body.year + handleNum(req.body.month) + '01'), $lt: Number(neYe + handleNum(neMon) + '01') } }, function (err, docs) {
+    contentModel.find({ userId: req.body.userId, time: { $gte: Number(req.body.year + handleNum(req.body.month) + '01'), $lt: Number(neYe + handleNum(neMon) + '01') } }, function (err, docs) {
 
         if (!err) {
             console.log(docs);

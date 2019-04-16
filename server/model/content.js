@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var blogSchema = new Schema({
-    _id: Number,
+    // _id: Number,
+    userId: String,
+    time: Number,
     content: String
 },
     {
