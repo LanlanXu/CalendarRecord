@@ -1,12 +1,14 @@
 <template>
   <div class="calendar">
-    <el-button class="btn prev" type="primary" icon="el-icon-arrow-left" @click="getPrevMon()"></el-button>
-    <el-button class="btn next" type="primary" icon="el-icon-arrow-right" @click="getNextMon()"></el-button>
-
+    <div class="title">
+      <i class="el-icon-arrow-left btn prev" @click="getPrevMon()"></i>
+      {{year}}年{{month}}月
+      <i class="el-icon-arrow-right btn next" @click="getNextMon()"></i>
+    </div>
     <table cellpadding="0" cellspacing="0">
       <thead>
         <tr>
-          <th>{{month}}周一</th>
+          <th>周一</th>
           <th>周二</th>
           <th>周三</th>
           <th>周四</th>
@@ -22,11 +24,7 @@
               <template v-if="item">
                 <h1>{{item.date}}</h1>
                 <textarea v-model="item.content" @blur="hideEdit($event, item)" v-show="item.edit"></textarea>
-                <p
-                  v-show="!item.edit"
-                  @click="showEdit($event, item)"
-                  v-html="showContent(item.content)"
-                ></p>
+                <p v-show="!item.edit" @click="showEdit($event, item)" v-html="showContent(item.content)"></p>
               </template>
             </td>
           </template>
@@ -140,7 +138,7 @@ export default {
         ).getDate();
 
       // 补充当日之后的内容
-      for (var i = date, temp = day; i <= curMonLastDate; i++, temp++) {
+      for (var i = date, temp = day; i <= curMonLastDate; i++ , temp++) {
         var j = Math.floor((temp - 1) / 7),
           time = `${year}${this.handleNum(month)}${this.handleNum(i)}`,
           content = data && data[time] ? data[time] : "";
@@ -192,14 +190,20 @@ export default {
   width: 100%;
   position: relative;
 
+  .title {
+    text-align: center;
+    font-size: 24px;
+    line-height: 1.6;
+    position: relative;
+    background: #e09c9c;
+  }
+
   .btn {
-    position: absolute;
-    top: 0;
     padding: 12px 5px;
     line-height: 16px;
     border-radius: 0;
-    background: $bg-color;
-    border-color: $bg-color;
+    vertical-align: top;
+    cursor: pointer;
 
     &.prev {
       left: 0;
@@ -276,8 +280,7 @@ export default {
         font-size: 12px;
         font-family: "微软雅黑";
         resize: none;
-        text-align: left;
-        // transition: all 2s;
+        text-align: left; // transition: all 2s;
         // -moz-transition: all 2s;
         // /* Firefox 4 */
         // -webkit-transition: all 2s;

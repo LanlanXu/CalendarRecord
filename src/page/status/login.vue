@@ -10,13 +10,7 @@
         </div>
         <div class="item">
           <label>密码</label>
-          <i-input
-            :form="form"
-            inputType="password"
-            :deleteBoolArr="deleteBoolArr"
-            str="pwd"
-            place="请输入密码"
-          ></i-input>
+          <i-input :form="form" inputType="password" :deleteBoolArr="deleteBoolArr" str="pwd" place="请输入密码"></i-input>
         </div>
       </div>
       <div class="main-btn" @click="login">登录</div>
@@ -62,9 +56,10 @@ export default {
           password: this.form.pwd
         },
         function(data) {
-          localStorage.setItem("userId", data.data[0]._id);
+
           _this.errorMsg(data.msg);
           if (data.success) {
+            localStorage.setItem("userId", data.data[0]._id);
             // 储存用户名和密码
             // 跳转
             _this.$router.push("/index");
@@ -77,5 +72,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 </style>
 

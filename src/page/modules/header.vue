@@ -23,7 +23,7 @@ export default {
 @import "@/assets/base.scss";
 .head {
   height: $bar-btn;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #76769e;
   display: flex;
   justify-content: space-between;
   background: $bg-color;

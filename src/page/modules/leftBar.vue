@@ -2,10 +2,10 @@
   <div class="left-bar">
     <fourleafs :size="40" :left="60" :top="60"></fourleafs>
     <ul>
-      <li>
-        <i class="fa fa-home"></i>
-        <span class="text">首页</span>
-      </li>
+      <!--<li>
+            <i class="fa fa-home"></i>
+            <span class="text">首页</span>
+          </li>-->
       <li @click="openLayer" v-if="false">
         <i class="fa fa-sign-in"></i>
         <span class="text">登陆</span>
@@ -66,7 +66,10 @@ export default {
       font-size: 14px;
       position: relative;
       text-align: center;
-      color: #fff;
+      a {
+        color: #fff;
+      }
+
 
       .fa {
         padding: 0 5px;
